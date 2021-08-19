@@ -175,6 +175,18 @@
         <option v-bind:value="{ number: 234, phone: '03' }">Tokyo</option>
       </select>
       <span>Selected: {{ selectedV }}</span><br>
+
+      <h4>v-model修飾子</h4>
+      <span>lazy ※フォーカスが外れると値が同期される</span><br>
+      <input type="text" v-model.lazy="lazyValue"/>
+      <span>{{ lazyValue }}</span><br />
+      <span>number ※自動的に数値に変換 ex) 4e-3 や -.4 や 0004 や 4xxxx555 などを入力してみると数値変換されていることが分かります。また、数値に変換出来ない場合はそのまま文字列としてセットされます。</span><br>
+      <input type="text" v-model.number="age" placeholder="input number."/>
+      <span>{{ age }}</span><br />
+      <span>trim ※前後の空白を自動的に取り除く</span><br>
+      <span>trimなし</span><input type="text" v-model="address" @keydown.ctrl.enter="submitAddress" placeholder="input and ctrl+enter"/><br>
+      <span>trimあり</span><input type="text" v-model.trim="address" @keydown.ctrl.enter="submitAddress" placeholder="input and ctrl+enter"/><br>
+      <span>{{ address }}</span><span>※←表示時にもtrimされるので、ここではtrimしていない場合との違いは分からない</span><br />
     </div>
     <script>
       var example5 = new Vue({
@@ -200,11 +212,19 @@
           radioV: "",
 
           selectedV: "",
+
+          lazyValue: "",
+
+          age: "",
+          address: "",
         },
         methods: {
           submit: function () {
             alert("message: " + this.message + ", checked: " + this.checked);
           },
+          submitAddress: function(){
+            alert("address: " + this.address);
+          }
         },
       });
     </script>
