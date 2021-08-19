@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8" />
   <title>Dynamic Components Example</title>
   <script src="https://unpkg.com/vue"></script>
   <style>
@@ -68,6 +69,41 @@
         data: {
             tabs: tabs,
             currentTab: tabs[0]
+        }
+    })
+</script>
+
+<h4>DOM テンプレートパース時の警告</h4>
+<div id="component-template-parse-warning">
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+    </tr>
+    <!-- カスタムコンポーネント blog-post をtable要素にそのまま入れても正常に動作しないので、-->
+    <!-- tr の is属性としてカスタムコンポーネント名を渡せるようになっている。tr以外にも ul, ol, select なども同様 -->
+    <tr is="blog-post" v-for="post in posts"
+        v-bind:key="post.id" v-bind:post="post"></tr>
+  </table>
+</div>
+<script>
+    Vue.component('blog-post', {
+        props: ['post'],
+        template: `
+          <tr class="blog-post">
+            <td>{{ post.title }}</td>
+            <td v-html="post.content"></td>
+          </tr>
+        `
+    });
+    new Vue({
+        el: "#component-template-parse-warning",
+        data: {
+            posts: [
+                {id: 1, title: "すぐ分かる Vue.js", content: "test"},
+                {id: 2, title: "サルでも分かる Vue.js", content: "<span class='post-content'>サルでも分かります</span>"},
+                {id: 3, title: "Vue.js のコツ 50コ教えます！", content: "<span class='post-content'>神になります</span>"},
+            ],
         }
     })
 </script>
