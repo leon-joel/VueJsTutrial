@@ -1,43 +1,76 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Vue Test</title>
-    <!-- Vue.js ver2 を読み込む -->
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <!-- Vue.js ver3 を読み込む -->
-    <!-- <script src="https://unpkg.com/vue@next"></script> -->
-    <style>
-      #app-2 .error {
-        color: red;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="utf-8"/>
+  <title>Vue Test</title>
+  <!-- Vue.js ver2 を読み込む -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <!-- Vue.js ver3 を読み込む -->
+  <!-- <script src="https://unpkg.com/vue@next"></script> -->
+  <style>
+    #app-2 .error {
+      color: red;
+    }
+  </style>
+</head>
 
-  <body>
-    <h4>コンポーネントの再利用</h4>
-    <div id="components-demo">
-      <!-- コンポーネントは再利用可能 ※カウンターは各々のコンポーネントが保持するので全て独立 -->
-      <button-counter></button-counter>
-      <button-counter></button-counter>
-      <button-counter></button-counter>
-    </div>
-    <script>
-      // button-counter と呼ばれる新しいコンポーネントを定義します
-      // ・ここではGlobalに登録している
-      // ・第1引数がコンポーネント名
-      //   ※W3C rules に従ったカスタムタグ名(ケバブケース:全て小文字で、ハイフンが含まれていること)を推奨します。
-      //     これは、既に存在する、そして将来定義される HTML 要素との衝突を防止するのに役立ちます。
-      Vue.component('button-counter', {
+<body>
+<h4>コンポーネントの再利用</h4>
+<div id="components-demo">
+  <!-- コンポーネントは再利用可能 ※カウンターは各々のコンポーネントが保持するので全て独立 -->
+  <button-counter></button-counter>
+  <button-counter></button-counter>
+  <button-counter></button-counter>
+</div>
+<script>
+    // button-counter と呼ばれる新しいコンポーネントを定義します
+    // ・ここではGlobalに登録している
+    // ・第1引数がコンポーネント名
+    //   ※W3C rules に従ったカスタムタグ名(ケバブケース:全て小文字で、ハイフンが含まれていること)を推奨します。
+    //     これは、既に存在する、そして将来定義される HTML 要素との衝突を防止するのに役立ちます。
+    Vue.component('button-counter', {
         // dataは関数として定義する！
         data: function () {
-          return {
-            count: 0
-          }
+            return {
+                count: 0
+            }
         },
         template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
-      })
-      var demo = new Vue({ el: '#components-demo' })
-    </script>
-  </body>
+    });
+    var vm = new Vue({el: '#components-demo'})
+</script>
+
+<h4>プロパティを使用した子コンポーネントへのデータの受け渡し</h4>
+<div id="component-with-prop">
+  <blog-post title="My journey with Vue"></blog-post>
+  <blog-post title="Blogging with Vue"></blog-post>
+  <blog-post title="Why Vue is so fun"></blog-post>
+</div>
+<script>
+    Vue.component('blog-post', {
+        // このコンポーネントが受け入れるプロパティのリスト
+        props: ['title'],
+        template: '<h6>{{ title }}</h6>'
+    });
+    var vm = new Vue({el: '#component-with-prop'})
+</script>
+
+<h4>同、動的生成</h4>
+<div id="component-dynamic">
+  <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>
+  <!-- componentのtitleに post.title をBindする -->
+</div>
+<script>
+    var vm = new Vue({
+        el: '#component-dynamic',
+        data: {
+            posts: [
+                { id: 1, title: "すぐ分かる Vue.js" },
+                { id: 2, title: "サルでも分かる Vue.js" },
+                { id: 1, title: "Vue.js のコツ 50コ教えます！" },
+            ]
+        }
+    })
+</script>
+</body>
 </html>
