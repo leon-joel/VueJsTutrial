@@ -75,14 +75,26 @@
 
 <h4>componentのtemplateには単一のルート要素が必要</h4>
 <div id="component-dynamic2">
-  <blog-post2 v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post2>
+  <div :style="{ fontSize: postFontSize + 'em' }">
+    <!-- v-on:子要素から発生されたカスタムイベントを購読し、インラインJSを実行する。   -->
+    <!--      カスタムイベントから渡された引数は $event でアクセス出来る。   -->
+    <!--      カスタムイベントハンドラーからメソッドを呼び出す場合は第1引数に $event が渡される -->
+    <blog-post2 v-for="post in posts"
+                v-bind:key="post.id" v-bind:post="post"
+                v-on:enlarge-text="postFontSize += $event"
+                v-on:condense-text="onCondenseText"
+    ></blog-post2>
+  </div>
 </div>
 <script>
     Vue.component('blog-post2', {
         props: ['post'],
+        // ボタンclickで enlarge-text というカスタムイベントを送出する。イベントに引数も渡せる。
         template: `
           <div class="blog-post">
             <h6>{{ post.title }}</h6>
+            <button v-on:click="$emit('enlarge-text', 0.2)">Enlarge text</button>
+            <button v-on:click="$emit('condense-text', 0.2)">Condense text</button>
             <div v-html="post.content"></div>
           </div>
         `
@@ -94,7 +106,13 @@
                 { id: 1, title: "すぐ分かる Vue.js", content: "test" },
                 { id: 2, title: "サルでも分かる Vue.js", content: "<span class='post-content'>サルでも分かります</span>" },
                 { id: 1, title: "Vue.js のコツ 50コ教えます！", content: "<span class='post-content'>神になります</span>" },
-            ]
+            ],
+            postFontSize: 1,
+        },
+        methods: {
+            onCondenseText: function (condenseAmount) {
+                this.postFontSize -= condenseAmount
+            }
         }
     })
 </script>
