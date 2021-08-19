@@ -65,13 +65,38 @@
           say: function (message) {
             alert(message);
           },
-          warn: function (message, event){
+          warn: function (message, event) {
             // ネイティブイベントを参照
             if (event) {
-              event.preventDefault()
+              event.preventDefault();
             }
-            alert(message)
-          }
+            alert(message);
+          },
+        },
+      });
+    </script>
+
+    <h4>キー修飾子</h4>
+    <div id="example-4">
+      <span>Trigger Enter</span>
+      <input type="text" v-model="inputValue1" v-on:keyup.enter="submit1"/><br>
+      <span>Trigger ctrl+Enter</span>
+      <input type="text" v-model="inputValue2" v-on:keydown.ctrl.enter="submit2"/>
+    </div>
+    <script>
+      var example4 = new Vue({
+        el: "#example-4",
+        data: {
+          inputValue1: "",
+          inputValue2: "",
+        },
+        methods: {
+          submit1: function () {
+            alert(this.inputValue1);
+          },
+          submit2: function () {
+            alert(this.inputValue2);
+          },
         },
       });
     </script>
