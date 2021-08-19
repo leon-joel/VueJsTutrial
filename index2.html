@@ -79,9 +79,19 @@
     <h4>キー修飾子</h4>
     <div id="example-4">
       <span>Trigger Enter</span>
-      <input type="text" v-model="inputValue1" v-on:keyup.enter="submit1"/><br>
+      <input
+        type="text"
+        v-model="inputValue1"
+        v-on:keyup.enter="submit1"
+        placeholder="input and press enter!"
+      /><br />
       <span>Trigger ctrl+Enter</span>
-      <input type="text" v-model="inputValue2" v-on:keydown.ctrl.enter="submit2"/>
+      <input
+        type="text"
+        v-model="inputValue2"
+        v-on:keydown.ctrl.enter="submit2"
+        placeholder="input and press ctrl+enter"
+      />
     </div>
     <script>
       var example4 = new Vue({
@@ -96,6 +106,26 @@
           },
           submit2: function () {
             alert(this.inputValue2);
+          },
+        },
+      });
+    </script>
+
+    <h4>複数行テキスト</h4>
+    <div id="example-5">
+      <span>Multiline message is:</span>
+      <span>{{ message }}</span><br />
+      <textarea v-model="message" @keydown.ctrl.enter="submit" placeholder="add multiple lines"></textarea>
+    </div>
+    <script>
+      var example5 = new Vue({
+        el: "#example-5",
+        data: {
+          message: "",
+        },
+        methods: {
+          submit: function () {
+            alert(this.message);
           },
         },
       });
