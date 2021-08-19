@@ -116,5 +116,24 @@
         }
     })
 </script>
+
+<H4>スロットによるコンテンツ配信</H4>
+<div id="component-slot">
+  <!-- alert-boxのコンテンツ（タグに囲まれた部分）がcomponentの slot部分 に適用される-->
+  <alert-box>何か悪いことが起きている！</alert-box>
+</div>
+<script>
+    Vue.component('alert-box', {
+        template: `
+          <div class="demo-alert-box">
+            <strong>Error!</strong>
+            <slot></slot>
+          </div>
+        `
+    })
+    var vm = new Vue({
+        el: '#component-slot',
+    })
+</script>
 </body>
 </html>
