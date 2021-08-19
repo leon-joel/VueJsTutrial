@@ -111,11 +111,12 @@
       });
     </script>
 
-    <h4>複数行テキスト＆チェックボックス＆チェックボックス配列</h4>
+    <h4>複数行テキスト＆チェックボックス＆ラジオボタン＆コンボボックス</h4>
     <div id="example-5">
       <span>Multiline message is:</span>
       <span>{{ message }}</span><br />
       <textarea v-model="message" @keydown.ctrl.enter="submit" placeholder="input and press ctrl+enter"></textarea><br>
+      <!-- 単一チェックボックス -->
       <input type="checkbox" id="checkbox" v-model="checked">
       <label for="checkbox">{{ checked }}</label><br>
       <!-- 複数チェックボックスは配列にBindされる。チェックされたcheckboxのvalueの値が順不同で配列に格納される。-->
@@ -125,7 +126,37 @@
       <label for="checkboxName2">鈴木</label>
       <input type="checkbox" id="checkboxName3" value="Satoh" v-model="checkedNames">
       <label for="checkboxName3">佐藤</label><br>
-      <span>Checked names: {{ checkedNames }}</span>
+      <span>Checked names: {{ checkedNames }}</span><br>
+      <!-- ラジオボタン -->
+      <input type="radio" id="one" value="One" v-model="picked">
+      <label for="one">One</label><br>
+      <input type="radio" id="two" value="Two" v-model="picked">
+      <label for="two">Two</label><br>
+      <span>Picked: {{ picked }}</span><br>
+      <!-- コンボボックス -->
+      <!-- v-model の式の初期値がオプションのどれとも一致しない場合、<select> 要素は “未選択” の状態で描画されます。
+      iOS では、この場合 iOS が change イベントを発生させないため、最初のアイテムを選択できなくなります。
+      したがって、上記の例に示すように、disabled な空の値のオプションを追加しておくことをおすすめします。 -->
+      <select v-model="selected">
+        <option disabled value="">Please select one</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+      </select>
+      <span>Selected: {{ selected }}</span><br>
+      <!-- コンボボックス（v-forで動的生成） ※表示文字列を選択値を分けることもやっている -->
+      <select v-model="selected">
+        <option v-for="option in options" v-bind:value="option.value">
+          {{ option.text }}
+        </option>
+      </select><br>
+      <!-- リストボックス（複数選択） ※選択要素がそのまま配列に格納される（順不同）-->
+      <select v-model="multiSelected" multiple>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+      </select>
+      <span>Selected: {{ multiSelected }}</span><br>
     </div>
     <script>
       var example5 = new Vue({
@@ -134,6 +165,15 @@
           message: "",
           checked: false,
           checkedNames: ["Suzuki"],
+          picked: "",
+          selected: "",
+          multiSelected: ["C"],
+
+          options: [
+            { text: 'One', value: 'A' },
+            { text: 'Two', value: 'B' },
+            { text: 'Three', value: 'C' },
+          ]
         },
         methods: {
           submit: function () {
