@@ -15,6 +15,7 @@
   </head>
 
   <body>
+    <h4>clickイベント</h4>
     <div id="example-1">
       <button v-on:click="counter += 1">Add 1</button>
       <p>The button above has been clicked {{ counter }} times.</p>
@@ -24,6 +25,53 @@
         el: "#example-1",
         data: {
           counter: 0,
+        },
+      });
+    </script>
+
+    <h4>clickイベント ～ メソッドイベントハンドラ</h4>
+    <!-- `greet` は、あらかじめ定義したメソッドの名前 -->
+    <div id="example-2">
+      <button v-on:click="greet">Greet</button>
+    </div>
+    <script>
+      var example2 = new Vue({
+        el: "#example-2",
+        data: { name: "Vue.js" },
+        methods: {
+          greet: function (event) {
+            alert("Hello" + this.name + "!");
+            if (event) {
+              alert(event.target.tagName);
+            }
+          },
+        },
+      });
+    </script>
+
+    <h4>clickイベント ～ インラインメソッドハンドラ</h4>
+    <div id="example-3">
+      <button v-on:click="say('hi')">Say hi!</button>
+      <button v-on:click="say('what')">Say what</button>
+      <!-- DOMイベントをJSに渡す -->
+      <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+        Submit
+      </button>
+    </div>
+    <script>
+      var example3 = new Vue({
+        el: "#example-3",
+        methods: {
+          say: function (message) {
+            alert(message);
+          },
+          warn: function (message, event){
+            // ネイティブイベントを参照
+            if (event) {
+              event.preventDefault()
+            }
+            alert(message)
+          }
         },
       });
     </script>
