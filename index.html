@@ -21,7 +21,9 @@
     </script>
 
     <div id="app-2">
+      <!-- v-modelディレクティブによる 双方向バインディング -->
       <input type="text" v-model="message" />
+      <span>{{ message }}</span>
       <div class="error" v-if="error.require">必須項目です。</div>
       <div class="error" v-if="error.tooLong">長すぎます。</div>
     </div>
@@ -44,6 +46,7 @@
       });
     </script>
 
+    <h4>bind（ツールチップを動的にセット）</h4>
     <div id="app-3">
       <!-- Vueインスタンスのmessageプロパティをツールチップ(title)にBindしている -->
       <span v-bind:title="message">
@@ -60,8 +63,7 @@
       });
     </script>
 
-    <hr>
-    <!-- 条件分岐 -->
+    <h4>条件分岐</h4>
     <div id="app-4">
       <!-- app4 の seen を false にすると消える -->
       <span v-if="seen">Now you see me</span>
@@ -75,8 +77,7 @@
       })
     </script>
 
-    <hr>
-    <!-- forループ -->
+    <h4>forループ</h4>
     <div id="app-5">
       <ol>
         <li v-for="todo in todos">
@@ -93,6 +94,25 @@
             { text: 'Learn Vue' },
             { text: 'Build something awesome' }
           ]
+        }
+      })
+    </script>
+
+    <h4>ユーザー入力の制御 ～ clickイベント</h4>
+    <div id="app-6">
+      <p>{{ message }}</p>
+      <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+    <script>
+      var app6 = new Vue({
+        el: '#app-6',
+        data: {
+          message: 'Hello Vue.js!'
+        },
+        methods: {
+          reverseMessage: function () {
+            this.message = this.message.split('').reverse().join('')
+          }
         }
       })
     </script>
