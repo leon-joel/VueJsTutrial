@@ -111,21 +111,33 @@
       });
     </script>
 
-    <h4>複数行テキスト</h4>
+    <h4>複数行テキスト＆チェックボックス＆チェックボックス配列</h4>
     <div id="example-5">
       <span>Multiline message is:</span>
       <span>{{ message }}</span><br />
-      <textarea v-model="message" @keydown.ctrl.enter="submit" placeholder="add multiple lines"></textarea>
+      <textarea v-model="message" @keydown.ctrl.enter="submit" placeholder="input and press ctrl+enter"></textarea><br>
+      <input type="checkbox" id="checkbox" v-model="checked">
+      <label for="checkbox">{{ checked }}</label><br>
+      <!-- 複数チェックボックスは配列にBindされる。チェックされたcheckboxのvalueの値が順不同で配列に格納される。-->
+      <input type="checkbox" id="checkboxName1" value="Yamada" v-model="checkedNames">
+      <label for="checkboxName1">山田</label>
+      <input type="checkbox" id="checkboxName2" value="Suzuki" v-model="checkedNames">
+      <label for="checkboxName2">鈴木</label>
+      <input type="checkbox" id="checkboxName3" value="Satoh" v-model="checkedNames">
+      <label for="checkboxName3">佐藤</label><br>
+      <span>Checked names: {{ checkedNames }}</span>
     </div>
     <script>
       var example5 = new Vue({
         el: "#example-5",
         data: {
           message: "",
+          checked: false,
+          checkedNames: ["Suzuki"],
         },
         methods: {
           submit: function () {
-            alert(this.message);
+            alert("message: " + this.message + ", checked: " + this.checked);
           },
         },
       });
