@@ -72,5 +72,31 @@
         }
     })
 </script>
+
+<h4>componentのtemplateには単一のルート要素が必要</h4>
+<div id="component-dynamic2">
+  <blog-post2 v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post2>
+</div>
+<script>
+    Vue.component('blog-post2', {
+        props: ['post'],
+        template: `
+          <div class="blog-post">
+            <h6>{{ post.title }}</h6>
+            <div v-html="post.content"></div>
+          </div>
+        `
+    })
+    var vm = new Vue({
+        el: '#component-dynamic2',
+        data: {
+            posts: [
+                { id: 1, title: "すぐ分かる Vue.js", content: "test" },
+                { id: 2, title: "サルでも分かる Vue.js", content: "<span class='post-content'>サルでも分かります</span>" },
+                { id: 1, title: "Vue.js のコツ 50コ教えます！", content: "<span class='post-content'>神になります</span>" },
+            ]
+        }
+    })
+</script>
 </body>
 </html>
