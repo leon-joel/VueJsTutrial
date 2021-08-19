@@ -3,8 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <title>Vue Test</title>
-    <!-- Vue.js を読み込む -->
+    <!-- Vue.js ver2 を読み込む -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- Vue.js ver3 を読み込む -->
+    <!-- <script src="https://unpkg.com/vue@next"></script> -->
     <style>
       #app-2 .error {
         color: red;
@@ -76,7 +78,8 @@
     <h4>bind（ツールチップを動的にセット）</h4>
     <div id="app-3">
       <!-- Vueインスタンスのmessageプロパティをツールチップ(title)にBindしている -->
-      <span v-bind:title="message">
+      <!-- Hoverするたびに message を変更するメソッドを呼び出す ※v-on: を @ で省略することが出来る -->
+      <span v-bind:title="message" @mouseover="udpateMessage">
         Hover your mouse over me for a few seconds to see my dynamically bound
         title!
       </span>
@@ -85,8 +88,14 @@
       var app3 = new Vue({
         el: "#app-3",
         data: {
+          // messageはLoad時に決まる
           message: "You loaded this page on " + new Date().toLocaleString(),
         },
+        methods: {
+          udpateMessage: function(){
+            this.message = "message has changed on " + new Date().toLocaleString()
+          }
+        }
       });
     </script>
 
